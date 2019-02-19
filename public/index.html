@@ -1,32 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create User</title>
-</head>
-<body>
-  <fieldset>
-    <form id="user-create-form" action="./api/user" method="post">
-      <!-- put this back in later *action="./api/user" method="post" -->
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Create User</title>
+</head>
+
+<body>
+  <form id="user-create-form" action="./api/user" method="post">
+    <fieldset>
+      <legend>User Info</legend>
       Username:<br>
-      <input type="text" name="name"><br>
-      
+      <input type="text" name="name" autofocus><br>
+
       Email:<br>
       <input type="text" name="email"><br>
-      
+
       Happy Place:<br>
       <input type="text" name="happyplace"><br>
 
       First Pet:<br>
-      <input type="text" name="firstpet"><br>
-      
-      <button type="submit">Create User</button>
-    </form>
-  </fieldset>
+      <input type="text" name="firstpet" disabled><br>
+    </fieldset>
 
-    <script src= "index.js"></script>
+    <fieldset>
+      <legend>Contact Info</legend>
+      <label>Mobile Phone</label><br>
+      <input type="number"><br>
+
+      <label>Social Media:</label><br>
+      <input type="url"><br>
+    </fieldset>
+
+    <fieldset>
+      <legend>Preferred Communication Method</legend>
+      <input type="radio" name="comm" value="phone">Phone<br>
+      <input type="radio" name="comm" value="text">Text<br>
+      <input type="radio" name="comm" value="email">Email<br>
+    </fieldset>
+
+    <fieldset>
+      <legend>Devices</legend>
+      <input class="device-check" type="checkbox" name="device1" value="phone">Tengo Telephono<br>
+      <input class="device-check" type="checkbox" name="device2" value="tesla">Tengo Tesla<br>
+      <input class="device-check" type="checkbox" name="device3" value="brains">Tengo Brains<br>
+    </fieldset>
+
+    <fieldset>
+      <legend>Title</legend>
+      <select id='selection' multiple>
+        <option value="user">User</option>
+        <option value="mod">Moderator</option>
+        <option value="admin">Administrator</option>
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <legend>Bonus</legend>
+      <p>
+        <label for="date">
+          <span>Birthdate:</span>
+          <strong><abbr title="required">*</abbr></strong>
+        </label>
+        <input type="date" id="date" name="birthdate">
+      </p>
+    </fieldset>
+
+    <button type="Submit">Create User</button>
+    <button type="Reset" value="Reset">Reset</button>
+  </form>
+
+  <script src="index.js"></script>
 </body>
+
 </html>

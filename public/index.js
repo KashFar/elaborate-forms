@@ -7,26 +7,51 @@ userCreateSubmitButton.addEventListener('click', function submitHander(event) {
   event.preventDefault()
 
   let userInput = document.getElementsByTagName('input')
-  let input = [] // this is just ONE WAY to combine all the inputs.
+  let inputValues = [] // this is just ONE WAY to combine all the inputs.
   // [whole_name].value is for loop syntax, we use it.
 
   for (let currentInput of userInput) {
     console.log(currentInput)
     console.log(currentInput.value)
 
-    input.push(currentInput.value)
+    inputValues.push(currentInput.value)
   }
 
   // it doesn't grab this information from the form in HTML
   // can make these whatever I want. You just made brand new variables.
 
-  let username = input[0]
-  let email = input[1]
-  let happyplace = input[2]
-  let firstpet = input[3]
+  let radios = document.getElementsByName('comm')
+  let commChoice
 
-  let newUser = new User(username, email, happyplace, firstpet)
-  let formattedNewUser = JSON.stringify(newUser)
+  for (let radio of radios){
+    if(radio.checked) {
+      commChoice = radio.value
+    }
+  }
+
+let checkBoxes = document.getElementsByClassName('device-check')
+let checkChoices = []
+
+for (let checkBox of checkBoxes){
+  if (checkBox.checked){
+    checkChoices.push(checkBox.value)
+  }
+}
+
+let selectOptions = document.getElementById('selection').select
+let selectedIndex = selectOptions.selectedIndex
+let selectedTitle
+console.log(selectedIndex)
+
+if (selectedIndex != -1){
+  selectedTitle = selectOptions[selectedIndex].value
+} else {
+  selectedTitle = 'none'
+ }
+
+ let dateValue = document.getElementById('date')
+
+const newUser = new User(inputValues, commChoice, checkChoices, selectedTitle, dateValue)
 
   // stack overflow: https://stackoverflow.com/questions/39565706/post-request-with-fetch-api
   fetch("/api/user/", {
@@ -36,20 +61,23 @@ userCreateSubmitButton.addEventListener('click', function submitHander(event) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
+    body: JSON.stringify(newUser)
     // we already stringified our json, otherwise we would do this with all our fields.
     //  body: JSON.stringify({
     //   name: myName,
     //   email: myEmail
     // etc etc
     // })
-
-    body: formattedNewUser
   }).then(response => {
     //do something awesome that makes the world a better place
     if (response.status === 201) {
       alert('Success!')
     } else if (response.status === 409) {
       alert('Username is Taken fool!')
+    }
+  }).then((data) =>{
+    if(data){
+      console.log(data)
     }
   })
   console.log('hi')
@@ -58,10 +86,16 @@ userCreateSubmitButton.addEventListener('click', function submitHander(event) {
 // MAKE NEW CLASSES IN A DIFFERENT FILE ON THE JOB
 
 class User {
-  constructor (username, email, happyplace, firstpet) {
-    this.username = username
-    this.email = email
-    this.happyplace = happyplace
-    this.firstpet = firstpet
+  constructor (inputValues, commChoice, checkChoices, selectedTitle, dateValue) {
+    this.username = inputValues[0]
+    this.email = inputValues[1]
+    this.happyplace = inputValues[2]
+    this.firstpet = inputValues[3]
+    this.phone = inputValues[4]
+    this.media = inputValues[5]
+    this.comm = commChoice
+    this.devices = checkChoices
+    this.title = selectedTitle
+    this.birthdate = dateValue
   }
 }
